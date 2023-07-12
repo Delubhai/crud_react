@@ -1,18 +1,41 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate, BrowserRouter } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
+import ResponsiveAppBar from './components/Appbar'
+import Login from './authPages/Login'
 
+const isAuthenticated = () => {
+  let localData = localStorage.getItem('vAccessToken')
+  if (localData) {
+    return true;
+  } else {
+    return false;
+  }
+};
+const PrivateRoute = ({ path, element }) => {
+  return isAuthenticated() ? (
+    <>
+      <ResponsiveAppBar />
+      {element}
+    </>
+  ) : (
+    <Navigate to="/login" replace={true} />
+  );
+};
 function AppRoutes() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />}>Home</Route>
-      <Route path='/about' element={<About />}>About</Route>
-      <Route path='/contact' element={<Contact />}>Contact Us</Route>
-      <Route path='*' element={<NotFound />}></Route>
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path="/login" element={<Login />} />
+        <Route path="/" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/about" element={<PrivateRoute element={<About />} />} />
+        <Route path="/contact" element={<PrivateRoute element={<Contact />} />} />
+        <Route path="*" element={<PrivateRoute element={<NotFound />} />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
