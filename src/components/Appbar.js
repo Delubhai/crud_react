@@ -21,7 +21,8 @@ const pageList = [
   { name: 'Contact Us', routerLink: '/contact' },
   { name: 'Test', routerLink: '/test' },
 ]
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -39,9 +40,15 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
+    console.log(e.target, '>>>>>>>>>>event target value')
   };
+
+  const handleLogout = () => {
+    localStorage.clear()
+    navigate('/login')
+  }
 
   return (
     <AppBar position="static">
@@ -152,7 +159,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -172,7 +179,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} value={setting} onClick={(e) => { handleCloseUserMenu(e); handleLogout() }}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

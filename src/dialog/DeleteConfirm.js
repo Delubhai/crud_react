@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
 
-function DeleteConfirm({ openDialog, closeDialog }) {
+function DeleteConfirm({ message, openDialog, closeDialog }) {
   const [open, setOpen] = useState(openDialog);
 
   // const handleClickOpen = () => {
@@ -20,12 +20,11 @@ function DeleteConfirm({ openDialog, closeDialog }) {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
+        {"Confirm"}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+          {message}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
